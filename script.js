@@ -10,9 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const result = document.getElementById('result');
   const resultText = document.getElementById('result-text');
   const emoji = document.getElementById('emoji');
+  const selectAllBtn = document.getElementById('select-all-btn');
+  const progressBar = document.getElementById('progress-bar');
 
   let selectedTables = [];
   let currentQuestion = {};
+  let lastQuestion = null;
   
   // Sélection des tables
   tableButtons.forEach(btn => {
@@ -27,16 +30,45 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
+  // Sélectionner/Désélectionner toutes les tables
+  selectAllBtn.addEventListener('click', () => {
+      const isSelecting = selectAllBtn.textContent === "Toutes";
+      selectedTables = [];
+      tableButtons.forEach(btn => {
+          if (isSelecting) {
+              btn.classList.add('selected');
+              const number = parseInt(btn.dataset.number);
+              selectedTables.push(number);
+          } else {
+              btn.classList.remove('selected');
+          }
+      });
+      selectAllBtn.textContent = isSelecting ? "Aucune" : "Toutes";
+      if (isSelecting) {
+          selectAllBtn.classList.add('selected');
+      } else {
+          selectAllBtn.classList.remove('selected');
+      }
+  });
+
   // Génération d'une question aléatoire
   function generateQuestion() {
       if (selectedTables.length === 0) return null;
-      const table = selectedTables[Math.floor(Math.random() * selectedTables.length)];
-      const multiplier = Math.floor(Math.random() * 10) + 1;
-      return {
-          num1: multiplier,
-          num2: table,
-          answer: multiplier * table
-      };
+      let newQuestion;
+      do {
+          const table = selectedTables[Math.floor(Math.random() * selectedTables.length)];
+          const multiplier = Math.floor(Math.random() * 10) + 1;
+          newQuestion = {
+              num1: multiplier,
+              num2: table,
+              answer: multiplier * table
+          };
+      } while (lastQuestion && 
+              lastQuestion.num1 === newQuestion.num1 && 
+              lastQuestion.num2 === newQuestion.num2);
+      
+      lastQuestion = newQuestion;
+      return newQuestion;
   }
 
   // Démarrage du jeu
@@ -78,10 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
               origin: { y: 0.6 }
           });
           emoji.textContent = '🎉';
+          resultText.textContent = '';
+          animateProgress(1500);
           setTimeout(nextQuestion, 1500);
       } else {
           emoji.textContent = '😢';
-          resultText.textContent = `La bonne réponse était ${currentQuestion.num1} x ${currentQuestion.num2} = ${currentQuestion.answer}`;
+          resultText.innerHTML = `La bonne réponse était ${currentQuestion.num1} x ${currentQuestion.num2} = <span class="correct-answer">${currentQuestion.answer}</span>`;
+          animateProgress(3000);
           setTimeout(nextQuestion, 3000);
       }
   });
@@ -94,5 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
           currentAnswer.textContent = '0';
           result.style.display = 'none';
       }
+  }
+
+  function animateProgress(duration) {
+      progressBar.style.transition = `width ${duration}ms linear`;
+      progressBar.style.width = '100%';
+      setTimeout(() => {
+          progressBar.style.width = '0';
+      }, 100);
   }
 });
