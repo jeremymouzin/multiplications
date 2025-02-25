@@ -12,10 +12,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const emoji = document.getElementById('emoji');
   const selectAllBtn = document.getElementById('select-all-btn');
   const progressBar = document.getElementById('progress-bar');
+  const statsDiv = document.getElementById('stats');
+  const totalCount = document.getElementById('total-count');
+  const successCount = document.getElementById('success-count');
+  const errorCount = document.getElementById('error-count');
+  const successRate = document.getElementById('success-rate');
 
   let selectedTables = [];
   let currentQuestion = {};
   let lastQuestion = null;
+  let stats = {
+    total: 0,
+    success: 0,
+    errors: 0
+  };
   
   // Sélection des tables
   tableButtons.forEach(btn => {
@@ -84,9 +94,20 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
       }
       gameArea.style.display = 'block';
+      statsDiv.style.display = 'block';
       result.style.display = 'none';
+      stats = { total: 0, success: 0, errors: 0 };
+      updateStats();
       nextQuestion();
   });
+
+  function updateStats() {
+      totalCount.textContent = stats.total;
+      successCount.textContent = stats.success;
+      errorCount.textContent = stats.errors;
+      const rate = stats.total > 0 ? Math.round((stats.success / stats.total) * 100) : 0;
+      successRate.textContent = rate;
+  }
 
   // Gestion du pavé numérique
   numButtons.forEach(btn => {
@@ -108,8 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
   validateBtn.addEventListener('click', () => {
       const userAnswer = parseInt(currentAnswer.textContent);
       result.style.display = 'block';
+      stats.total++;
       
       if (userAnswer === currentQuestion.answer) {
+          stats.success++;
           confetti({
               particleCount: 100,
               spread: 70,
@@ -120,11 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
           animateProgress(1500);
           setTimeout(nextQuestion, 1500);
       } else {
+          stats.errors++;
           emoji.textContent = '😢';
           resultText.innerHTML = `La bonne réponse était ${currentQuestion.num1} x ${currentQuestion.num2} = <span class="correct-answer">${currentQuestion.answer}</span>`;
           animateProgress(3000);
           setTimeout(nextQuestion, 3000);
       }
+      updateStats();
   });
 
   // Passage à la question suivante

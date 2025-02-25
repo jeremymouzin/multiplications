@@ -30,6 +30,14 @@
 
     <button id="start-btn">Démarrer</button>
 
+    <div id="stats" style="display: none;">
+      <div class="stats-container">
+        <div class="stat-item">Questions : <span id="total-count">0</span></div>
+        <div class="stat-item success">Réussites : <span id="success-count">0</span> (<span id="success-rate">0</span>%)</div>
+        <div class="stat-item error">Erreurs : <span id="error-count">0</span></div>
+      </div>
+    </div>
+
     <div id="game-area" style="display: none;">
       <div id="question">...</div>
       <div id="answer-display">Réponse : <span id="current-answer">0</span></div>
