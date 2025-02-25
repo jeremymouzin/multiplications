@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sélection des tables
   tableButtons.forEach(btn => {
       btn.addEventListener('click', () => {
+          // Ignorer le bouton spécial
+          if (btn === selectAllBtn) return;
+          
           btn.classList.toggle('selected');
           const number = parseInt(btn.dataset.number);
           if (selectedTables.includes(number)) {
@@ -35,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const isSelecting = selectAllBtn.textContent === "Toutes";
       selectedTables = [];
       tableButtons.forEach(btn => {
+          // Ignorer le bouton spécial lui-même
+          if (btn === selectAllBtn) return;
+          
           if (isSelecting) {
               btn.classList.add('selected');
               const number = parseInt(btn.dataset.number);
