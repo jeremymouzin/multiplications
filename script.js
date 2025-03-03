@@ -112,22 +112,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Gestion du pavé numérique
   numButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-          if (currentAnswer.textContent === '0') {
-              currentAnswer.textContent = btn.textContent;
-          } else {
-              currentAnswer.textContent += btn.textContent;
-          }
+          const [equation, currentValue] = questionDiv.textContent.split('=');
+          const newValue = currentValue.trim() === '?' ? btn.textContent : (currentValue.trim() + btn.textContent);
+          questionDiv.textContent = `${equation}= ${newValue}`;
       });
   });
 
   // Effacement de la réponse
   clearBtn.addEventListener('click', () => {
-      currentAnswer.textContent = '0';
+      const equation = questionDiv.textContent.split('=')[0];
+      questionDiv.textContent = `${equation}= ?`;
   });
 
   // Validation de la réponse
   validateBtn.addEventListener('click', () => {
-      const userAnswer = parseInt(currentAnswer.textContent);
+      const userAnswer = parseInt(questionDiv.textContent.split('=')[1]);
       result.style.display = 'block';
       stats.total++;
       
@@ -157,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
       currentQuestion = generateQuestion();
       if (currentQuestion) {
           questionDiv.textContent = `${currentQuestion.num1} x ${currentQuestion.num2} = ?`;
-          currentAnswer.textContent = '0';
           result.style.display = 'none';
       }
   }
