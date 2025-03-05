@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
+
 <body>
   <div class="container">
     <h1>Tables de multiplication</h1>
-    
+
     <div class="table-selection">
       <h2>Choisir les tables à réviser :</h2>
       <div class="number-buttons">
@@ -33,14 +35,15 @@
     <div id="stats" style="display: none;">
       <div class="stats-container">
         <div class="stat-item">Questions : <span id="total-count">0</span></div>
-        <div class="stat-item success">Réussites : <span id="success-count">0</span> (<span id="success-rate">0</span>%)</div>
+        <div class="stat-item success">Réussites : <span id="success-count">0</span> (<span id="success-rate">0</span>%)
+        </div>
         <div class="stat-item error">Erreurs : <span id="error-count">0</span></div>
       </div>
     </div>
 
     <div id="game-area" style="display: none;">
       <div id="question">...</div>
-      
+
       <div id="result" style="display: none;">
         <p id="result-text"></p>
         <div id="emoji"></div>
@@ -64,7 +67,12 @@
         <button id="validate-btn">✓</button>
       </div>
     </div>
+    <div id="error-history" style="display: none;">
+      <h2>Voir mes erreurs <span class="arrow">▼</span></h2>
+      <div id="error-list"></div>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>
+
 </html>
