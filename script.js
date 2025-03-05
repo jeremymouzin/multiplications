@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearBtn = document.getElementById('clear-btn');
     const validateBtn = document.getElementById('validate-btn');
     const questionDiv = document.getElementById('question');
-    const currentAnswer = document.getElementById('current-answer');
     const result = document.getElementById('result');
     const resultText = document.getElementById('result-text');
     const emoji = document.getElementById('emoji');
