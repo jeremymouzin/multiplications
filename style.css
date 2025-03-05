@@ -71,7 +71,6 @@
 
 #result {
   height: 120px;
-  /* hauteur fixe */
   margin: 0;
   font-size: 2rem;
   padding-block-end: 10px;
@@ -79,12 +78,16 @@
 
 #result-text {
   margin: 0;
-  min-height: 40px;
+  min-height: 0;
+}
+
+#result-text:empty {
+  display: none;
 }
 
 #emoji {
   font-size: 48px;
-  margin: 5px 0;
+  margin: 0;
   min-height: 60px;
   display: block;
 }
